@@ -1,0 +1,73 @@
+/* Configurator.module.css */
+.container {
+    font-family: 'Roboto', sans-serif;
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 20px;
+    display: grid;
+    flex-direction: column;
+}
+
+.header {
+    color: white;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #9E0929;
+    border-radius: 8px;
+    text-align: center;
+}
+.wrapper{
+    max-width: 900px;
+    border: 1px solid black;
+    padding: 20px;
+
+}
+.info{
+    border: 1px solid black;
+    max-width: 580px;
+    height: 800px;
+}
+
+.configSections {
+    display: inline-block;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.section {
+    flex: 1;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sectionTitle {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.selectorGroup {
+    margin-bottom: 20px;
+}
+
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.checkboxContainer input {
+    width: 18px;
+    height: 18px;
+}
+
+.checkboxLabel {
+    font-size: 16px;
+}
