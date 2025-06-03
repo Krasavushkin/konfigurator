@@ -16,10 +16,11 @@ import {NumSelector} from "./NumSelector";
 import {AdditionalOptionsSelector} from "./AdditionalOptionsSelector";
 import styles from './Configurator.module.css';
 import {WireTypeSelector} from "./WireTypeSelector";
+import {CableDescription} from "./CableDescription";
 
 export const Configurator = () => {
-    const [config, setConfig] = useState<CableConfigType>({
-        sheath: "нг(A)-LS",
+    const initConfig: CableConfigType = {
+        sheath: "LS",
         coreCount: 1,
         twistType: "",
         twistQuantity: "1",
@@ -30,7 +31,8 @@ export const Configurator = () => {
         screen: "",
         individualScreen: "",
         additionalOptions: initialAdditionalOptions
-    });
+    }
+    const [config, setConfig] = useState<CableConfigType>(initConfig);
     const updateConfig = (key: keyof CableConfigType, value: string | number | boolean) => {
         setConfig(prev => ({...prev, [key]: value}));
         console.log(value)
@@ -41,6 +43,9 @@ export const Configurator = () => {
     const handleWiresTypeChange = (options: WiresTypeParam) => {
         setConfig(prev => ({ ...prev, wireType: options }));
     };
+    const resetCableMark = () => {
+        setConfig(initConfig)
+    }
     function generateCableMark(config: CableConfigType) {
         const { additionalOptions} = config;
 
@@ -52,7 +57,7 @@ export const Configurator = () => {
 
         const fireResistantCondition = config.additionalOptions.fireResistant ? "FR" : "";
         const coldResistantCondition =
-            config.sheath === "нг(A)-HF"
+            config.sheath === "HF"
                 ? (additionalOptions.highColdResistant ? "-АХЛ" : "-ХЛ")
                 : additionalOptions.coldResistant ? "-ХЛ"
                     :  config.sheath === "У" ? "-АХЛ" :
@@ -65,63 +70,69 @@ export const Configurator = () => {
         const tinnedMark = config.wireType.tinnedWire ? "л" : "м";
 
 
-        return `СКАБ-C${config.screen} 660${config.armour}${polyethylene}${fireResistantCondition}${config.sheath}${coldResistantCondition}
+        return `СКАБ-C${config.screen} 660${config.armour}${polyethylene}нг(A)-${fireResistantCondition}${config.sheath}${coldResistantCondition}
         ${config.coreCount}${twistTypeCondition}${config.individualScreen}х${sectionCondition}
         ${tinnedMark}${wireType} ${optionsMark}`;
     }
         const twistedTitle = config.twistType === "2" ? "Количество пар" : config.twistType === "3" ? "Количество троек" : config.twistType === "4" ? "Количество четверок" : "Количество жил"
     return (
-        <div className={styles.container}>
-            <h1 className={styles.header}>{generateCableMark(config)} </h1>
-            <div className={styles.wrapper}>
-                <div className={styles.configSections}>
-                    <h2 className={styles.sectionTitle}>Основные параметры</h2>
-                   <WireTypeSelector title="Тип жилы"
-                                     value={config.wireType}
-                                     onChange={handleWiresTypeChange}/>
+        <div>
+            <h1 className={styles.header}> Конфигуратор кабеля СКАБ-С </h1>
+            <div className={styles.container}>
 
-                    {config.wireType.singleWire ? "" :
-                        <NumSelector title="Класс гибкости" value={config.wireClass}
-                                     data={WireClass}
-                                     onChange={(e) => updateConfig("wireClass", Number(e))}/>}
+                <div className={styles.wrapper}>
+                    <div className={styles.configSections}>
+                        <h2 className={styles.sectionTitle}>Основные параметры</h2>
+                        <WireTypeSelector title="Тип жилы"
+                                          value={config.wireType}
+                                          onChange={handleWiresTypeChange}/>
 
-                    <RequiredSelector title="Тип скрутки" data={WiresTwisted} value={config.twistType}
-                                      onChange={(e) => updateConfig("twistType", e)}/>
+                        {config.wireType.singleWire ? "" :
+                            <NumSelector title="Класс гибкости" value={config.wireClass}
+                                         data={WireClass}
+                                         onChange={(e) => updateConfig("wireClass", Number(e))}/>}
 
-                    <NumSelector title={twistedTitle} value={config.coreCount} data={CoreCount}
-                                 onChange={(e) => updateConfig("coreCount", Number(e))}/>
+                        <RequiredSelector title="Тип скрутки" data={WiresTwisted} value={config.twistType}
+                                          onChange={(e) => updateConfig("twistType", e)}/>
 
-                    <NumSelector title="Сечение"
-                                 value={config.section}
-                                 data={config.twistType === '3' ?
-                                     SectionTriadCores : config.twistType === '4' ?
-                                         SectionQuadCores : SectionCores}
-                                 onChange={(e) => updateConfig("section", Number(e))}/>
+                        <NumSelector title={twistedTitle} value={config.coreCount} data={CoreCount}
+                                     onChange={(e) => updateConfig("coreCount", Number(e))}/>
+
+                        <NumSelector title="Сечение жилы (мм²):"
+                                     value={config.section}
+                                     data={config.twistType === '3' ?
+                                         SectionTriadCores : config.twistType === '4' ?
+                                             SectionQuadCores : SectionCores}
+                                     onChange={(e) => updateConfig("section", Number(e))}/>
+
+                    </div>
+
+                    <>
+                        <SelectorOptional title="Исполнение" data={Sheath} value={config.sheath}
+                                          onChange={(e) => updateConfig("sheath", e)}/>
+
+                        <SelectorOptional title="Общий экран" data={Screens} value={config.screen}
+                                          onChange={(e) => updateConfig("screen", e)}/>
+
+                        <SelectorOptional title="Индивидуальный экран" data={IndividualScreens} value={config.individualScreen}
+                                          onChange={(e) => updateConfig("individualScreen", e)}/>
+
+                        <SelectorOptional title="Броня" data={Armour} value={config.armour}
+                                          onChange={(e) => updateConfig("armour", e)}/>
+                        <AdditionalOptionsSelector title="Дополнительные параметры" data={AdditionalOptionsList} selected={config.additionalOptions}
+                                                   onChange={handleAdditionalOptionsChange}/>
+                    </>
 
                 </div>
+                <div className={styles.info}>
+                    <h2 className={styles.cableMark}>{generateCableMark(config)} </h2>
+                    <button className={styles.reset} onClick={resetCableMark}>Сброс конфигурации</button>
+                    <CableDescription data={config} />
+                </div>
 
-                <>
-                    <SelectorOptional title="Исполнение" data={Sheath} value={config.sheath}
-                                      onChange={(e) => updateConfig("sheath", e)}/>
-
-                    <SelectorOptional title="Общий экран" data={Screens} value={config.screen}
-                                      onChange={(e) => updateConfig("screen", e)}/>
-
-                    <SelectorOptional title="Индивидуальный экран" data={IndividualScreens} value={config.individualScreen}
-                                      onChange={(e) => updateConfig("individualScreen", e)}/>
-
-                    <SelectorOptional title="Броня" data={Armour} value={config.armour}
-                                      onChange={(e) => updateConfig("armour", e)}/>
-                    <AdditionalOptionsSelector title="Дополнительные параметры" data={AdditionalOptionsList} selected={config.additionalOptions}
-                                               onChange={handleAdditionalOptionsChange}/>
-                </>
 
             </div>
-            <div className={styles.info}>
-
-            </div>
-
-
         </div>
+
     );
 };

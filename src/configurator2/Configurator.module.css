@@ -4,19 +4,54 @@
     max-width: 1480px;
     margin: 0 auto;
     padding: 20px;
-    display: grid;
-    flex-direction: column;
+    display: flex;
 }
 
 .header {
     color: white;
     font-size: 24px;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 30px;
     padding: 15px;
     background-color: #9E0929;
     border-radius: 8px;
     text-align: center;
+}
+.cableMark {
+    color: #333;
+    background-color: #f8f9fa;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 0;
+    border-bottom: 2px solid #9E0929;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0.5px;
+    max-width: 80%;
+}
+
+.cableMark:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(158, 9, 41, 0.1);
+    background-color: #ffffff;
+}
+.reset {
+    background: none;
+    border: 1px solid #9E0929;
+    color: #9E0929;
+    padding: 10px 24px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 5px;
+}
+
+.reset:hover {
+    background-color: #9E0929;
+    color: white;
 }
 .wrapper{
     max-width: 900px;

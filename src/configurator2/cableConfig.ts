@@ -55,9 +55,9 @@ export type AdditionalOptionListType = {
     disabled?: boolean;
 };
 export const Sheath: OptionalParam[] = [
-    {id: nanoid(), name: "нг(A)-LS", description: "поливинилхлоридный пластикат пониженной пожарной опасности", disabled: false},
-    {id: nanoid(), name: "нг(A)-HF", description: "полимерная композиция, не содержащая галогенов", disabled: false},
-    {id: nanoid(), name: "нг(A)-LSLTx", description: "ПВХ пластикат пониженной пожарной опасности с низкой токсичностью продуктов горения", disabled: false},
+    {id: nanoid(), name: "LS", description: "поливинилхлоридный пластикат пониженной пожарной опасности", disabled: false},
+    {id: nanoid(), name: "HF", description: "полимерная композиция, не содержащая галогенов", disabled: false},
+    {id: nanoid(), name: "LSLTx", description: "ПВХ пластикат пониженной пожарной опасности с низкой токсичностью продуктов горения", disabled: false},
     {id: nanoid(), name: "У", description: "полиуретан безгалогенный термопластичный", disabled: false},
 ]
 export const CoreCount: number [] = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 19, 24, 27, 30, 37, 44, 48, 52, 61];
