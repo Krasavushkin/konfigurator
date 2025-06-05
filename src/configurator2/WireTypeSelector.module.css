@@ -1,17 +1,22 @@
 .selector {
-    margin-bottom: 15px;
+
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 .wireTypeGroup {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 0.75rem;
+    max-width: 500px;
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 .selectorTitle {
     text-align: left;
     font-size: 16px;
     margin-bottom: 10px;
-
+    color: #333;
 }
 
 .optionsList {
@@ -41,7 +46,41 @@
     border-color: #4a6bdf;
 }
 
-.optionInput {
-    width: 16px;
-    height: 16px;
+.checkbox {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.checkbox:checked {
+    background-color: #9E0929;
+    border-color: #9E0929;
+}
+
+.checkbox:checked::after {
+    content: "✓";
+    position: absolute;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox:hover {
+    border-color: #9E0929;
+}
+
+.checkbox-label {
+    font-size: 16px;
+    color: #444;
+    cursor: pointer;
 }

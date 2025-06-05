@@ -43,7 +43,7 @@ export const AdditionalOptionsSelector = ({
                             checked={selected[option.key]}
                             onChange={() => handleOptionChange(option.key)}
                             disabled={option.disabled}
-                            className={styles.optionInput}
+                            className={styles.checkbox}
                         />
                         <span className="option-desc">{option.description}</span>
                     </label>

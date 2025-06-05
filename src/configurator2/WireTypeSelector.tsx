@@ -27,35 +27,38 @@ export const WireTypeSelector = ({title, value, onChange }: WireTypeSelectorProp
     };
 
     return (
-        <div>
-            <h3> {title} </h3>
+        <div className={styles.selector}>
+            <h3 className={styles.selectorTitle}> {title} </h3>
 
             <div  className={styles.wireTypeGroup}>
-                <label>
+                <label className={styles.optionLabel}>
                     <input
                         type="checkbox"
                         name="wireType"
                         checked={value.singleWire}
                         onChange={() => handleWireTypeChange('singleWire')}
+                        className={styles.checkbox}
                     />
                     <span>Однопроволочная</span>
                 </label>
 
-                <label>
+                <label className={styles.optionLabel}>
                     <input
                         type="checkbox"
                         name="wireType"
                         checked={value.strandedWire}
                         onChange={() => handleWireTypeChange('strandedWire')}
+                        className={styles.checkbox}
                     />
                     <span>Многопроволочная</span>
                 </label>
 
-                <label>
+                <label className={styles.optionLabel}>
                     <input
                         type="checkbox"
                         checked={value.tinnedWire}
                         onChange={() => handleWireTypeChange('tinnedWire')}
+                        className={styles.checkbox}
                     />
                     <span>Луженая</span>
                 </label>

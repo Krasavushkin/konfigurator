@@ -32,7 +32,7 @@ export const SelectorOptional = ({ title, data, value, onChange }: SelectorOptio
                                 checked={value === item.name && !item.disabled}
                                 onChange={() => !item.disabled && handleChange(item.name)}
                                 //disabled={item.disabled}
-                                className={styles.optionInput}
+                                className={styles.checkbox}
                             />
                             <span className="selector-description">{item.description}</span>
                         </label>

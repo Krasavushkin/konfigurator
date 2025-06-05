@@ -27,7 +27,7 @@ export const RequiredSelector = ({title, data, value, onChange}: SelectorRequire
                         checked={value === data.name }
                         onChange={() => handleChange(data.name)}
                         //disabled={data.disabled}
-                        className="selector-checkbox"
+                        className={styles.checkbox}
                     />
                     <span className="selector-description">{data.description}</span>
                 </label>

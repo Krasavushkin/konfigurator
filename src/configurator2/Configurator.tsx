@@ -77,33 +77,38 @@ export const Configurator = () => {
         const twistedTitle = config.twistType === "2" ? "Количество пар" : config.twistType === "3" ? "Количество троек" : config.twistType === "4" ? "Количество четверок" : "Количество жил"
     return (
         <div>
-            <h1 className={styles.header}> Конфигуратор кабеля СКАБ-С </h1>
+            <h1 className={styles.header}> Конфигуратор кабеля марки СКАБ-С </h1>
             <div className={styles.container}>
 
                 <div className={styles.wrapper}>
                     <div className={styles.configSections}>
+{/*
                         <h2 className={styles.sectionTitle}>Основные параметры</h2>
+*/}
                         <WireTypeSelector title="Тип жилы"
                                           value={config.wireType}
                                           onChange={handleWiresTypeChange}/>
+                        <div className={styles.wireContainer}>
 
-                        {config.wireType.singleWire ? "" :
-                            <NumSelector title="Класс гибкости" value={config.wireClass}
-                                         data={WireClass}
-                                         onChange={(e) => updateConfig("wireClass", Number(e))}/>}
+                            <RequiredSelector title="Тип скрутки" data={WiresTwisted} value={config.twistType}
+                                              onChange={(e) => updateConfig("twistType", e)}/>
 
-                        <RequiredSelector title="Тип скрутки" data={WiresTwisted} value={config.twistType}
-                                          onChange={(e) => updateConfig("twistType", e)}/>
+                            <NumSelector title={twistedTitle} value={config.coreCount} data={CoreCount}
+                                         onChange={(e) => updateConfig("coreCount", Number(e))}/>
 
-                        <NumSelector title={twistedTitle} value={config.coreCount} data={CoreCount}
-                                     onChange={(e) => updateConfig("coreCount", Number(e))}/>
+                            <NumSelector title="Сечение жилы, мм²"
+                                         value={config.section}
+                                         data={config.twistType === '3' ?
+                                             SectionTriadCores : config.twistType === '4' ?
+                                                 SectionQuadCores : SectionCores}
+                                         onChange={(e) => updateConfig("section", Number(e))}/>
+                            {config.wireType.singleWire ? "" :
+                                <NumSelector title="Класс гибкости" value={config.wireClass}
+                                             data={WireClass}
+                                             onChange={(e) => updateConfig("wireClass", Number(e))}/>}
 
-                        <NumSelector title="Сечение жилы (мм²):"
-                                     value={config.section}
-                                     data={config.twistType === '3' ?
-                                         SectionTriadCores : config.twistType === '4' ?
-                                             SectionQuadCores : SectionCores}
-                                     onChange={(e) => updateConfig("section", Number(e))}/>
+                        </div>
+
 
                     </div>
 
