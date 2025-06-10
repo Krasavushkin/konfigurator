@@ -14,12 +14,12 @@ export const CableDescription = ({data}: CableDescriptionType) => {
             "парной скрутки" : data.twistType === "3" ?
                 "троечной скрутки" : data.twistType === "4"?
                     "четверочной скрутки" : "скрутки в сердечник";
-        const shealth = data.sheath === "LS" ?
+        const sheath = data.sheath === "LS" ?
             "поливинилхлоридного пластиката пониженной пожарной опасности" : data.sheath === "HF" ?
                 "полимерной композиции, не содержащей галогенов" : data.sheath === "LSLTx" ?
                     "ПВХ пластиката пониженной пожарной опасности с низкой токсичностью продуктов горения" : "полиуретана безгалогенного термопластичного";
         const isolation = data.additionalOptions.fireResistant ? "керамообразующей кремнийорганической резины" :
-            data.additionalOptions.polyethylene ? "сшитого полиэтилена" : shealth;
+            data.additionalOptions.polyethylene ? "сшитого полиэтилена" : sheath;
         const compressed = data.additionalOptions.compressed ? "без внутреннего заполнения" : "с внутренним заполнением"
         const screen = data.screen === "Эф" ?
             "с общим экраном в виде ламинированной алюминиевой фольги" : data.screen === "Эфм" ?
@@ -39,12 +39,11 @@ export const CableDescription = ({data}: CableDescriptionType) => {
                     data.armour === "К" ? "c броней в виде оплетки из стальных оцинкованных проволок с защитным шлангом" :
                         data.armour === "Кс" ? "c броней в виде спирального повива из стальных оцинкованных проволок и с защитным шлангом" : "без брони";
         const coldResistant = data.additionalOptions.coldResistant ? " повышенной морозостойкости" : "";
-        const isolationFireResist = data.additionalOptions.fireResistant ? {coldResistant}: "";
         const waterBlock = data.additionalOptions.waterBlock ? ", с водоблокирующей лентой" : "";
         const ex_i = data.additionalOptions.ex_i ? ", для «искробезопасной» цепи с оболочкой синего цвета" : "";
         return (`Кабель универсальный на номинальное переменное напряжение 660 В с ${wire} жилами ${wireClass}
                  класса по ГОСТ 22483 из медных ${tinned} проволок, с номинальным сечением токопроводящих жил ${data.section} мм², ${twisted}${individualScreen}, ${screen},
-                 с изоляцией из ${isolation} , ${compressed},с оболочкой из ${shealth}${coldResistant}, ${armour} ${waterBlock}${ex_i}`)
+                 с изоляцией из ${isolation} , ${compressed},с оболочкой из ${sheath}${coldResistant}, ${armour} ${waterBlock}${ex_i}`)
     }
     return (
         <div>

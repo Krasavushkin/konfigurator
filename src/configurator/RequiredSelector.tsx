@@ -1,6 +1,6 @@
 import React from 'react';
 import {RequiredParam} from "./cableConfig";
-import styles from "./SelectorOptional.module.css";
+import styles from "./RequiredSelector.module.css";
 
 type SelectorRequiredType = {
     title: string;

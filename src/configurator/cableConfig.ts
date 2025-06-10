@@ -1,4 +1,3 @@
-
 import {nanoid} from "nanoid";
 
 
@@ -8,29 +7,15 @@ export type CableConfigType = {
     twistType: string,
     twistQuantity: string,
     wireType: WiresTypeParam,
-
     section: number,
     wireClass: number,
-
     armour: string,
     screen: string,
     individualScreen: string,
-
     additionalOptions: AdditionalOptionsType
 }
 
-export type RequiredParam = {
-    id: string,
-    name: string,
-    description: string
-}
 
-export type OptionalParam = {
-    id: string,
-    name: string,
-    description: string,
-    disabled: boolean
-}
 export type WiresTypeParam = {
     singleWire: boolean,
     strandedWire: boolean,
@@ -44,9 +29,9 @@ export type AdditionalOptionsType = {
     fireResistant: boolean,
     coldResistant: boolean,
     highColdResistant: boolean,
+    extremeColdResistant: boolean,
     polyethylene: boolean
 }
-
 export type AdditionalOptionListType = {
     id: string;
     key: keyof AdditionalOptionsType;
@@ -54,22 +39,32 @@ export type AdditionalOptionListType = {
     description: string;
     disabled?: boolean;
 };
+export type RequiredParam = {
+    id: string,
+    name: string,
+    description: string
+}
+
+export type OptionalParam = {
+    id: string,
+    name: string,
+    description: string,
+    disabled: boolean
+}
+
+
 export const Sheath: OptionalParam[] = [
-    {id: nanoid(), name: "LS", description: "поливинилхлоридный пластикат пониженной пожарной опасности", disabled: false},
-    {id: nanoid(), name: "HF", description: "полимерная композиция, не содержащая галогенов", disabled: false},
-    {id: nanoid(), name: "LSLTx", description: "ПВХ пластикат пониженной пожарной опасности с низкой токсичностью продуктов горения", disabled: false},
-    {id: nanoid(), name: "У", description: "полиуретан безгалогенный термопластичный", disabled: false},
+    {id: nanoid(), name: "LS", description: "поливинилхлоридный пластикат пониженной пожарной опасности (LS)", disabled: false},
+    {id: nanoid(), name: "HF", description: "полимерная композиция, не содержащая галогенов (HF)", disabled: false},
+    {id: nanoid(), name: "LSLTx", description: "ПВХ пластикат пониженной пожарной опасности с низкой токсичностью продуктов горения (LSLTx)", disabled: false},
+    {id: nanoid(), name: "У", description: "полиуретан безгалогенный термопластичный (У-АХЛ)", disabled: false},
 ]
 export const CoreCount: number [] = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 19, 24, 27, 30, 37, 44, 48, 52, 61];
 export const WireTypes: WiresTypeParam = {
     singleWire: false,
-    strandedWire: false,
+    strandedWire: true,
     tinnedWire: false
 }
-/*export const WireTypes: RequiredParam[] = [
-    {id: nanoid(), name: "Однопроволочная", description: "однопроволочная"},
-    {id: nanoid(), name: "Многопроволочная", description: "многопроволочная"},
-]*/
 export const WiresTwisted: RequiredParam[] = [
     {id: nanoid(), name: "1", description: "В сердечник"},
     {id: nanoid(), name: "2", description: "Парная"},
@@ -108,21 +103,14 @@ export const Armour: OptionalParam[] = [
 ]
 
 
-export const initialAdditionalOptions: AdditionalOptionsType = {
-    waterBlock: false,
-    compressed: false,
-    ex_i: false,
-    fireResistant: false,
-    coldResistant: false,
-    highColdResistant: false,
-    polyethylene: false
-};
+
 export const AdditionalOptionsList: AdditionalOptionListType[] = [
-    { id: nanoid(), key: 'waterBlock', name: "в", description: "водоблокирующий элемент" },
-    { id: nanoid(), key: 'compressed', name: "о", description: "без внутреннего заполнения" },
-    { id: nanoid(), key: 'ex_i', name: "Ex-i", description: "для «искробезопасной» цепи" },
-    { id: nanoid(), key: 'fireResistant', name: "FR", description: "огнестойкий" },
-    { id: nanoid(), key: 'coldResistant', name: "ХЛ", description: "хладостойкое исполнение" },
-    { id: nanoid(), key: 'highColdResistant', name: "АХЛ", description: "повышенная тепломорозостойкость" },
-    { id: nanoid(), key: 'polyethylene', name: "ПС", description: "изоляция из сшитого полиэтилена" }
+    { id: nanoid(), key: 'fireResistant', name: "FR", description: "огнестойкое исполнение, индекс «FR»", disabled: false },
+    { id: nanoid(), key: 'waterBlock', name: "в", description: "водоблокирующий элемент, индекс «в»" },
+    { id: nanoid(), key: 'compressed', name: "о", description: "без внутреннего заполнения, индекс «о»" },
+    { id: nanoid(), key: 'ex_i', name: "Ex-i", description: "для «искробезопасной» цепи, индекс «Ex-i»" },
+    { id: nanoid(), key: 'coldResistant', name: "ХЛ", description: "хладостойкое исполнение, индекс «ХЛ»", disabled: false },
+    { id: nanoid(), key: 'highColdResistant', name: "АХЛ", description: "повышенная тепломорозостойкость, индекс «АХЛ»", disabled: false },
+    { id: nanoid(), key: 'extremeColdResistant', name: "ЭХЛ", description: "повышенная морозостойкость, индекс «ЭХЛ»", disabled: false },
+    { id: nanoid(), key: 'polyethylene', name: "ПС", description: "изоляция из сшитого полиэтилена, индекс «Пс»", disabled: false }
 ]

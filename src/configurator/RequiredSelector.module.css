@@ -1,0 +1,82 @@
+.selector {
+    margin-bottom: 15px;
+    width: auto;
+}
+
+.selectorTitle {
+    text-align: left;
+    font-size: 16px;
+    margin-bottom: 10px;
+
+}
+
+.optionsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: inline;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.optionItem {
+    display: flex;
+    align-items: center;
+}
+
+.optionLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.optionLabel:hover {
+    border-color: #4a6bdf;
+}
+
+.optionInput {
+    width: 16px;
+    height: 16px;
+}
+
+.checkbox {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.checkbox:checked {
+    background-color: #9E0929;
+    border-color: #9E0929;
+}
+
+.checkbox:checked::after {
+    content: "✓";
+    position: absolute;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox:hover {
+    border-color: #9E0929;
+}
+
+.checkbox-label {
+    font-size: 16px;
+    color: #444;
+    cursor: pointer;
+}

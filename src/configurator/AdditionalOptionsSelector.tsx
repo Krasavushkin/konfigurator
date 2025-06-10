@@ -24,10 +24,14 @@ export const AdditionalOptionsSelector = ({
         // Обработка взаимоисключающих вариантов
         if (key === 'coldResistant' && newValue) {
             updatedOptions.highColdResistant = false;
+            updatedOptions.extremeColdResistant = false
         } else if (key === 'highColdResistant' && newValue) {
             updatedOptions.coldResistant = false;
+            updatedOptions.extremeColdResistant = false
+        } else if (key === 'extremeColdResistant' && newValue) {
+            updatedOptions.coldResistant = false;
+            updatedOptions.highColdResistant = false;
         }
-
         onChange(updatedOptions);
     }, [selected, onChange]);
 

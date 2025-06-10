@@ -4,7 +4,7 @@ import {
     AdditionalOptionsList, AdditionalOptionsType,
     Armour,
     CoreCount,
-    IndividualScreens, initialAdditionalOptions,
+    IndividualScreens,
     Screens,
     SectionCores, SectionQuadCores, SectionTriadCores,
     Sheath, WireClass,
@@ -19,10 +19,20 @@ import {WireTypeSelector} from "./WireTypeSelector";
 import {CableDescription} from "./CableDescription";
 
 export const Configurator = () => {
+    const initialAdditionalOptions: AdditionalOptionsType = {
+        waterBlock: false,
+        compressed: false,
+        ex_i: false,
+        fireResistant: false,
+        coldResistant: false,
+        highColdResistant: false,
+        extremeColdResistant: false,
+        polyethylene: false
+    };
     const initConfig: CableConfigType = {
         sheath: "LS",
         coreCount: 1,
-        twistType: "",
+        twistType: "1",
         twistQuantity: "1",
         wireType: WireTypes,
         section: 0.35,
@@ -32,7 +42,9 @@ export const Configurator = () => {
         individualScreen: "",
         additionalOptions: initialAdditionalOptions
     }
+
     const [config, setConfig] = useState<CableConfigType>(initConfig);
+    //ну ка что за хуйня здесь происходит как бы узнать
     const updateConfig = (key: keyof CableConfigType, value: string | number | boolean) => {
         setConfig(prev => ({...prev, [key]: value}));
         console.log(value)
@@ -68,9 +80,10 @@ export const Configurator = () => {
         const sectionCondition = config.section === 1 ? "1,0": config.section.toString().replace('.', ',');
         const wireType = config.wireType.singleWire ? "1" : config.wireClass;
         const tinnedMark = config.wireType.tinnedWire ? "л" : "м";
+        const groupResist = config.sheath === "У" ? "" : "нг(A)-"
 
 
-        return `СКАБ-C${config.screen} 660${config.armour}${polyethylene}нг(A)-${fireResistantCondition}${config.sheath}${coldResistantCondition}
+        return `СКАБ-C${config.screen} 660${config.armour}${polyethylene}${groupResist}${fireResistantCondition}${config.sheath}${coldResistantCondition}
         ${config.coreCount}${twistTypeCondition}${config.individualScreen}х${sectionCondition}
         ${tinnedMark}${wireType} ${optionsMark}`;
     }
@@ -82,18 +95,20 @@ export const Configurator = () => {
 
                 <div className={styles.wrapper}>
                     <div className={styles.configSections}>
-{/*
-                        <h2 className={styles.sectionTitle}>Основные параметры</h2>
-*/}
+
                         <WireTypeSelector title="Тип жилы"
                                           value={config.wireType}
                                           onChange={handleWiresTypeChange}/>
                         <div className={styles.wireContainer}>
 
-                            <RequiredSelector title="Тип скрутки" data={WiresTwisted} value={config.twistType}
+                            <RequiredSelector title="Тип скрутки"
+                                              data={WiresTwisted}
+                                              value={config.twistType}
                                               onChange={(e) => updateConfig("twistType", e)}/>
 
-                            <NumSelector title={twistedTitle} value={config.coreCount} data={CoreCount}
+                            <NumSelector title={twistedTitle}
+                                         value={config.coreCount}
+                                         data={CoreCount}
                                          onChange={(e) => updateConfig("coreCount", Number(e))}/>
 
                             <NumSelector title="Сечение жилы, мм²"
@@ -113,18 +128,28 @@ export const Configurator = () => {
                     </div>
 
                     <>
-                        <SelectorOptional title="Исполнение" data={Sheath} value={config.sheath}
+                        <SelectorOptional title="Исполнение"
+                                          data={Sheath}
+                                          value={config.sheath}
                                           onChange={(e) => updateConfig("sheath", e)}/>
 
-                        <SelectorOptional title="Общий экран" data={Screens} value={config.screen}
+                        <SelectorOptional title="Общий экран"
+                                          data={Screens}
+                                          value={config.screen}
                                           onChange={(e) => updateConfig("screen", e)}/>
 
-                        <SelectorOptional title="Индивидуальный экран" data={IndividualScreens} value={config.individualScreen}
+                        <SelectorOptional title="Индивидуальный экран"
+                                          data={IndividualScreens}
+                                          value={config.individualScreen}
                                           onChange={(e) => updateConfig("individualScreen", e)}/>
 
-                        <SelectorOptional title="Броня" data={Armour} value={config.armour}
+                        <SelectorOptional title="Броня"
+                                          data={Armour}
+                                          value={config.armour}
                                           onChange={(e) => updateConfig("armour", e)}/>
-                        <AdditionalOptionsSelector title="Дополнительные параметры" data={AdditionalOptionsList} selected={config.additionalOptions}
+                        <AdditionalOptionsSelector title="Дополнительные параметры (возможен выбор нескольких параметров)"
+                                                   data={AdditionalOptionsList}
+                                                   selected={config.additionalOptions}
                                                    onChange={handleAdditionalOptionsChange}/>
                     </>
 
