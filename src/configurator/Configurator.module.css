@@ -17,26 +17,7 @@
     border-radius: 8px;
     text-align: center;
 }
-.cableMark {
-    color: #333;
-    background-color: #f8f9fa;
-    font-size: 18px;
-    font-weight: 500;
-    margin: 30px auto;
-    padding: 20px 0;
-    border-radius: 0;
-    border-bottom: 2px solid #9E0929;
-    text-align: center;
-    font-family: 'Roboto', sans-serif;
-    letter-spacing: 0.5px;
-    max-width: 80%;
-}
 
-.cableMark:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(158, 9, 41, 0.1);
-    background-color: #ffffff;
-}
 .wireContainer{
     display: flex;
     gap: 40px;

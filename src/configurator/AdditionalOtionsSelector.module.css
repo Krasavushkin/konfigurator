@@ -1,12 +1,38 @@
 .selector {
-    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.selector.open {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .selectorTitle {
-    text-align: left;
+    margin: 0;
+    padding: 12px 16px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 16px;
-    margin-bottom: 10px;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+.selectorTitle:hover {
+    background-color: #ebebeb;
+}
+.arrowIcon {
+    font-size: 14px;
+    margin-left: 8px;
+    transition: transform 0.2s;
+}
 
+.open .arrowIcon {
+    transform: rotate(90deg);
 }
 
 .optionsList {
@@ -40,6 +66,11 @@
     width: 16px;
     height: 16px;
 }
+
+.optionDescription {
+    font-size: 14px;
+}
+
 .checkbox {
     -webkit-appearance: none;
     appearance: none;
@@ -77,4 +108,8 @@
     font-size: 16px;
     color: #444;
     cursor: pointer;
+}
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
 }

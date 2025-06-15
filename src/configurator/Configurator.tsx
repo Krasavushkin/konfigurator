@@ -4,11 +4,11 @@ import {
     AdditionalOptionsList, AdditionalOptionsType,
     Armour,
     CoreCount,
-    IndividualScreens,
+    IndividualScreens, initConfig,
     Screens,
     SectionCores, SectionQuadCores, SectionTriadCores,
     Sheath, WireClass,
-    WiresTwisted, WiresTypeParam, WireTypes,
+    WiresTwisted, WiresTypeParam,
 } from "./cableConfig";
 import {CableConfigType} from "./cableConfig";
 import {RequiredSelector} from "./RequiredSelector";
@@ -17,77 +17,59 @@ import {AdditionalOptionsSelector} from "./AdditionalOptionsSelector";
 import styles from './Configurator.module.css';
 import {WireTypeSelector} from "./WireTypeSelector";
 import {CableDescription} from "./CableDescription";
+import {GeneratorCableMark} from "./GeneratorCableMark";
+
 
 export const Configurator = () => {
-    const initialAdditionalOptions: AdditionalOptionsType = {
-        waterBlock: false,
-        compressed: false,
-        ex_i: false,
-        fireResistant: false,
-        coldResistant: false,
-        highColdResistant: false,
-        extremeColdResistant: false,
-        polyethylene: false
-    };
-    const initConfig: CableConfigType = {
-        sheath: "LS",
-        coreCount: 1,
-        twistType: "1",
-        twistQuantity: "1",
-        wireType: WireTypes,
-        section: 0.35,
-        wireClass: 3,
-        armour: "",
-        screen: "",
-        individualScreen: "",
-        additionalOptions: initialAdditionalOptions
-    }
 
     const [config, setConfig] = useState<CableConfigType>(initConfig);
-    //ну ка что за хуйня здесь происходит как бы узнать
     const updateConfig = (key: keyof CableConfigType, value: string | number | boolean) => {
         setConfig(prev => ({...prev, [key]: value}));
-        console.log(value)
+
     };
     const handleAdditionalOptionsChange = (options: AdditionalOptionsType) => {
-        setConfig(prev => ({ ...prev, additionalOptions: options }));
+        setConfig(prev => ({...prev, additionalOptions: options}));
     };
     const handleWiresTypeChange = (options: WiresTypeParam) => {
-        setConfig(prev => ({ ...prev, wireType: options }));
+        setConfig(prev => ({...prev, wireType: options}));
     };
     const resetCableMark = () => {
         setConfig(initConfig)
     }
-    function generateCableMark(config: CableConfigType) {
-        const { additionalOptions} = config;
 
-        const optionsMark = [
-            additionalOptions.waterBlock ? "в" : "",
-            additionalOptions.compressed ? "о" : "",
-            additionalOptions.ex_i ? "Ex-i" : "",
-        ].filter(Boolean).join(" ");
+    const applyDisablingRules = (config: CableConfigType) => {
+        const individualScreensDisabled = config.coreCount === 1;
+        const coldResistantDisabled = config.additionalOptions.polyethylene
+            ? true : config.sheath === "HF" || config.sheath === "У" || config.sheath === "LSLTx";
+        const extremeColdResistantDisabled = config.sheath === "LS" || config.sheath === "У" || config.sheath === "LSLTx";
+        const highColdResistantDisabled = config.additionalOptions.polyethylene
+            ? false
+            : config.sheath === "LS" || config.sheath === "У" || config.sheath === "LSLTx";
 
-        const fireResistantCondition = config.additionalOptions.fireResistant ? "FR" : "";
-        const coldResistantCondition =
-            config.sheath === "HF"
-                ? (additionalOptions.highColdResistant ? "-АХЛ" : "-ХЛ")
-                : additionalOptions.coldResistant ? "-ХЛ"
-                    :  config.sheath === "У" ? "-АХЛ" :
-                    additionalOptions.highColdResistant ? "-АХЛ"
-                        : "";
-        const polyethylene = config.additionalOptions.polyethylene ? "Пс" : "";
-        const twistTypeCondition = config.twistType === "2" ? "х2" : config.twistType === "3" ?"х3": config.twistType === "4"? "х4": "";
-        const sectionCondition = config.section === 1 ? "1,0": config.section.toString().replace('.', ',');
-        const wireType = config.wireType.singleWire ? "1" : config.wireClass;
-        const tinnedMark = config.wireType.tinnedWire ? "л" : "м";
-        const groupResist = config.sheath === "У" ? "" : "нг(A)-"
+        return {
+            individualScreens: IndividualScreens.map(item => ({
+                ...item,
+                disabled: individualScreensDisabled
+            })),
 
+            addOptions: AdditionalOptionsList.map(item => ({
+                ...item,
+                disabled:
+                    item.key === "coldResistant" ? coldResistantDisabled :
+                        item.key === "extremeColdResistant" ? extremeColdResistantDisabled :
+                            item.key === "highColdResistant" ? highColdResistantDisabled :
+                                item.disabled
+            })),
 
-        return `СКАБ-C${config.screen} 660${config.armour}${polyethylene}${groupResist}${fireResistantCondition}${config.sheath}${coldResistantCondition}
-        ${config.coreCount}${twistTypeCondition}${config.individualScreen}х${sectionCondition}
-        ${tinnedMark}${wireType} ${optionsMark}`;
-    }
-        const twistedTitle = config.twistType === "2" ? "Количество пар" : config.twistType === "3" ? "Количество троек" : config.twistType === "4" ? "Количество четверок" : "Количество жил"
+        };
+    };
+    const numData = config.twistType === '3' ?
+        SectionTriadCores : config.twistType === '4' ?
+            SectionQuadCores : SectionCores;
+
+    const disabledItems = applyDisablingRules(config);
+
+    const twistedTitle = config.twistType === "2" ? "Количество пар" : config.twistType === "3" ? "Количество троек" : config.twistType === "4" ? "Количество четверок" : "Количество жил"
     return (
         <div>
             <h1 className={styles.header}> Конфигуратор кабеля марки СКАБ-С </h1>
@@ -113,9 +95,7 @@ export const Configurator = () => {
 
                             <NumSelector title="Сечение жилы, мм²"
                                          value={config.section}
-                                         data={config.twistType === '3' ?
-                                             SectionTriadCores : config.twistType === '4' ?
-                                                 SectionQuadCores : SectionCores}
+                                         data={numData}
                                          onChange={(e) => updateConfig("section", Number(e))}/>
                             {config.wireType.singleWire ? "" :
                                 <NumSelector title="Класс гибкости" value={config.wireClass}
@@ -139,7 +119,7 @@ export const Configurator = () => {
                                           onChange={(e) => updateConfig("screen", e)}/>
 
                         <SelectorOptional title="Индивидуальный экран"
-                                          data={IndividualScreens}
+                                          data={disabledItems.individualScreens}
                                           value={config.individualScreen}
                                           onChange={(e) => updateConfig("individualScreen", e)}/>
 
@@ -147,17 +127,18 @@ export const Configurator = () => {
                                           data={Armour}
                                           value={config.armour}
                                           onChange={(e) => updateConfig("armour", e)}/>
-                        <AdditionalOptionsSelector title="Дополнительные параметры (возможен выбор нескольких параметров)"
-                                                   data={AdditionalOptionsList}
-                                                   selected={config.additionalOptions}
-                                                   onChange={handleAdditionalOptionsChange}/>
+                        <AdditionalOptionsSelector
+                            title="Дополнительные параметры (возможен выбор нескольких параметров)"
+                            data={disabledItems.addOptions}
+                            selected={config.additionalOptions}
+                            onChange={handleAdditionalOptionsChange}/>
                     </>
 
                 </div>
                 <div className={styles.info}>
-                    <h2 className={styles.cableMark}>{generateCableMark(config)} </h2>
+                    <GeneratorCableMark data={config}/>
                     <button className={styles.reset} onClick={resetCableMark}>Сброс конфигурации</button>
-                    <CableDescription data={config} />
+                    <CableDescription data={config}/>
                 </div>
 
 

@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {AdditionalOptionListType, AdditionalOptionsType} from "./cableConfig";
 import styles from './AdditionalOtionsSelector.module.css';
 
@@ -8,20 +8,27 @@ type AdditionalOptionsSelectorProps = {
     data: AdditionalOptionListType[];
     selected: AdditionalOptionsType;
     onChange: (options: AdditionalOptionsType) => void;
+    defaultOpen?: boolean;
 };
 
 export const AdditionalOptionsSelector = ({
                                               title,
                                               data,
                                               selected,
-                                              onChange
+                                              onChange,
+                                              defaultOpen = false
                                           }: AdditionalOptionsSelectorProps) => {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
+    const toggleOpen = () => {
+        setIsOpen(!isOpen);
+    };
+
     const handleOptionChange = useCallback((key: keyof AdditionalOptionsType) => {
         const newValue = !selected[key];
 
         const updatedOptions = { ...selected, [key]: newValue };
 
-        // Обработка взаимоисключающих вариантов
+        // Обработка вариантов
         if (key === 'coldResistant' && newValue) {
             updatedOptions.highColdResistant = false;
             updatedOptions.extremeColdResistant = false
@@ -36,11 +43,19 @@ export const AdditionalOptionsSelector = ({
     }, [selected, onChange]);
 
     return (
-        <div className={styles.selector}>
-            <h3 className={styles.selectorTitle}>{title}</h3>
+        <div className={`${styles.selector} ${isOpen ? styles.open : ''}`}>
+            <h3
+                className={styles.selectorTitle}
+                onClick={toggleOpen}>
+                {title}
+                <span className={styles.arrowIcon}>
+                    {isOpen ? '▼' : '►'}
+                </span>
+            </h3>
+            {isOpen && (
                 <ul className={styles.optionsList}>
                 {data.map(option => (
-                    <li>
+                    <li className={`${styles.optionItem} ${option.disabled ? styles.disabled : ''}`}>
                     <label key={option.id} className={styles.optionLabel}>
                         <input
                             type="checkbox"
@@ -49,11 +64,12 @@ export const AdditionalOptionsSelector = ({
                             disabled={option.disabled}
                             className={styles.checkbox}
                         />
-                        <span className="option-desc">{option.description}</span>
+                        <span className={styles.optionDescription}>{option.description}</span>
                     </label>
                     </li>
                 ))}
                 </ul>
+                )}
         </div>
     );
 };

@@ -44,13 +44,42 @@ export type RequiredParam = {
     name: string,
     description: string
 }
-
 export type OptionalParam = {
     id: string,
     name: string,
     description: string,
     disabled: boolean
 }
+
+export const initialAdditionalOptions: AdditionalOptionsType = {
+    waterBlock: false,
+    compressed: false,
+    ex_i: false,
+    fireResistant: false,
+    coldResistant: false,
+    highColdResistant: false,
+    extremeColdResistant: false,
+    polyethylene: false
+};
+export const WireTypes: WiresTypeParam = {
+    singleWire: false,
+    strandedWire: true,
+    tinnedWire: false
+}
+export const initConfig: CableConfigType = {
+    sheath: "LS",
+    coreCount: 1,
+    twistType: "1",
+    twistQuantity: "1",
+    wireType: WireTypes,
+    section: 0.35,
+    wireClass: 3,
+    armour: "",
+    screen: "",
+    individualScreen: "",
+    additionalOptions: initialAdditionalOptions
+}
+
 
 
 export const Sheath: OptionalParam[] = [
@@ -60,11 +89,7 @@ export const Sheath: OptionalParam[] = [
     {id: nanoid(), name: "У", description: "полиуретан безгалогенный термопластичный (У-АХЛ)", disabled: false},
 ]
 export const CoreCount: number [] = [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 14, 19, 24, 27, 30, 37, 44, 48, 52, 61];
-export const WireTypes: WiresTypeParam = {
-    singleWire: false,
-    strandedWire: true,
-    tinnedWire: false
-}
+
 export const WiresTwisted: RequiredParam[] = [
     {id: nanoid(), name: "1", description: "В сердечник"},
     {id: nanoid(), name: "2", description: "Парная"},

@@ -43,7 +43,7 @@ export const CableDescription = ({data}: CableDescriptionType) => {
         const ex_i = data.additionalOptions.ex_i ? ", для «искробезопасной» цепи с оболочкой синего цвета" : "";
         return (`Кабель универсальный на номинальное переменное напряжение 660 В с ${wire} жилами ${wireClass}
                  класса по ГОСТ 22483 из медных ${tinned} проволок, с номинальным сечением токопроводящих жил ${data.section} мм², ${twisted}${individualScreen}, ${screen},
-                 с изоляцией из ${isolation} , ${compressed},с оболочкой из ${sheath}${coldResistant}, ${armour} ${waterBlock}${ex_i}`)
+                 с изоляцией из ${isolation}, ${compressed}, с оболочкой из ${sheath}${coldResistant}, ${armour} ${waterBlock}${ex_i}`)
     }
     return (
         <div>
