@@ -1,6 +1,26 @@
 import {nanoid} from "nanoid";
 
 
+/*export type CableConfigType = {
+    sheath: string,
+    coreCount: number,
+    twistType: string,
+    twistQuantity: string,
+    wireType: WiresTypeParam,
+    section: number,
+    wireClass: number,
+    armour: string,
+    screen: string,
+    individualScreen: string,
+    fireResistant: boolean,
+    waterBlock: boolean,
+    compressed: boolean,
+    ex_i: boolean,
+    coldResistant: boolean,
+    highColdResistant: boolean,
+    extremeColdResistant: boolean,
+    polyethylene: boolean,
+}*/
 export type CableConfigType = {
     sheath: string,
     coreCount: number,
@@ -51,34 +71,13 @@ export type OptionalParam = {
     disabled: boolean
 }
 
-export const initialAdditionalOptions: AdditionalOptionsType = {
-    waterBlock: false,
-    compressed: false,
-    ex_i: false,
-    fireResistant: false,
-    coldResistant: false,
-    highColdResistant: false,
-    extremeColdResistant: false,
-    polyethylene: false
-};
+
 export const WireTypes: WiresTypeParam = {
     singleWire: false,
     strandedWire: true,
     tinnedWire: false
 }
-export const initConfig: CableConfigType = {
-    sheath: "LS",
-    coreCount: 1,
-    twistType: "1",
-    twistQuantity: "1",
-    wireType: WireTypes,
-    section: 0.35,
-    wireClass: 3,
-    armour: "",
-    screen: "",
-    individualScreen: "",
-    additionalOptions: initialAdditionalOptions
-}
+
 
 
 
@@ -131,11 +130,35 @@ export const Armour: OptionalParam[] = [
 
 export const AdditionalOptionsList: AdditionalOptionListType[] = [
     { id: nanoid(), key: 'fireResistant', name: "FR", description: "огнестойкое исполнение, индекс «FR»", disabled: false },
-    { id: nanoid(), key: 'waterBlock', name: "в", description: "водоблокирующий элемент, индекс «в»" },
-    { id: nanoid(), key: 'compressed', name: "о", description: "без внутреннего заполнения, индекс «о»" },
-    { id: nanoid(), key: 'ex_i', name: "Ex-i", description: "для «искробезопасной» цепи, индекс «Ex-i»" },
+    { id: nanoid(), key: 'waterBlock', name: "в", description: "водоблокирующий элемент, индекс «в»"},
+    { id: nanoid(), key: 'compressed', name: "о", description: "без внутреннего заполнения, индекс «о»"},
+    { id: nanoid(), key: 'ex_i', name: "Ex-i", description: "для «искробезопасной» цепи, индекс «Ex-i»"},
     { id: nanoid(), key: 'coldResistant', name: "ХЛ", description: "хладостойкое исполнение, индекс «ХЛ»", disabled: false },
     { id: nanoid(), key: 'highColdResistant', name: "АХЛ", description: "повышенная тепломорозостойкость, индекс «АХЛ»", disabled: false },
     { id: nanoid(), key: 'extremeColdResistant', name: "ЭХЛ", description: "повышенная морозостойкость, индекс «ЭХЛ»", disabled: false },
     { id: nanoid(), key: 'polyethylene', name: "ПС", description: "изоляция из сшитого полиэтилена, индекс «Пс»", disabled: false }
 ]
+
+export const initAdditionalOptions = {
+    fireResistant:false,
+    waterBlock: false,
+    compressed: false,
+    ex_i: false,
+    coldResistant: false,
+    highColdResistant: false,
+    extremeColdResistant: false,
+    polyethylene: false
+}
+export const initConfig: CableConfigType = {
+    sheath: "LS",
+    coreCount: 1,
+    twistType: "1",
+    twistQuantity: "1",
+    wireType: WireTypes,
+    section: 0.35,
+    wireClass: 3,
+    armour: "",
+    screen: "",
+    individualScreen: "",
+    additionalOptions: initAdditionalOptions
+}

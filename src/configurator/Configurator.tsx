@@ -27,8 +27,99 @@ export const Configurator = () => {
         setConfig(prev => ({...prev, [key]: value}));
 
     };
-    const handleAdditionalOptionsChange = (options: AdditionalOptionsType) => {
-        setConfig(prev => ({...prev, additionalOptions: options}));
+
+    const handleSheathChange = (key: keyof CableConfigType, value: string) => {
+        console.log(value)
+        if (value === "") {
+            value = "LS"
+        }
+        setConfig(prev => {
+            const updated = {...prev, [key]: value};
+
+            // Для HF сразу включаем coldResistant
+            if (value === "HF") {
+                updated.additionalOptions = {
+                    ...updated.additionalOptions,
+                    coldResistant: true,
+                    highColdResistant: false,
+                    extremeColdResistant: false
+                };
+            }
+            // Для LSLTx сбрасываем параметры
+            else if (value === "LSLTx") {
+                updated.additionalOptions = {
+                    ...updated.additionalOptions,
+                    highColdResistant: false,
+                    coldResistant: false,
+                    extremeColdResistant: false,
+                    polyethylene: false
+                };
+            }
+            else if (value === "У") {
+                updated.additionalOptions = {
+                    ...updated.additionalOptions,
+                    highColdResistant: true,
+                    coldResistant: false,
+                    extremeColdResistant: false,
+                    polyethylene: false
+                };
+            }
+            else if (value === "LS") {
+                updated.additionalOptions = {
+                    ...updated.additionalOptions,
+                    highColdResistant: false,
+                    coldResistant: false,
+                    extremeColdResistant: false,
+                    polyethylene: false
+                };
+            }
+            return updated;
+        });
+    };
+
+    const handleAdditionalOptionsChange = (newOptions: AdditionalOptionsType) => {
+        setConfig(prev => {
+            const { polyethylene: wasPE, highColdResistant: wasHCR, coldResistant: wasCR } = prev.additionalOptions;
+            const { polyethylene: newPE, highColdResistant: newHCR } = newOptions;
+            const { sheath } = prev;
+
+            let updated = { ...newOptions };
+
+            // Логика для LS оболочки
+            if (sheath === "LS") {
+                if (!wasPE && newPE) {
+                    updated.highColdResistant = true;
+                    updated.coldResistant = false;
+                    updated.extremeColdResistant = false;
+                }
+                else if (wasHCR && !newHCR) {
+                    updated.polyethylene = false;
+                }
+                else if (wasPE && !newPE) {
+                    updated.highColdResistant = false;
+                }
+            }
+
+            // Обработка полиэтилена для HF
+            if (sheath === "HF" && !wasPE && newPE) {
+                updated.highColdResistant = false;
+                updated.extremeColdResistant = false;
+            }
+
+            // Взаимоисключения температурных опций
+            const activeTempOption = ['coldResistant', 'highColdResistant', 'extremeColdResistant']
+                .find(option => updated[option as keyof AdditionalOptionsType]);
+
+            if (activeTempOption) {
+                ['coldResistant', 'highColdResistant', 'extremeColdResistant']
+                    .filter(option => option !== activeTempOption)
+                    .forEach(option => {
+                        updated[option as keyof AdditionalOptionsType] = false;
+                    });
+            }
+
+            return { ...prev, additionalOptions: updated };
+        });
     };
     const handleWiresTypeChange = (options: WiresTypeParam) => {
         setConfig(prev => ({...prev, wireType: options}));
@@ -37,39 +128,38 @@ export const Configurator = () => {
         setConfig(initConfig)
     }
 
+
     const applyDisablingRules = (config: CableConfigType) => {
-        const individualScreensDisabled = config.coreCount === 1;
-        const coldResistantDisabled = config.additionalOptions.polyethylene
-            ? true : config.sheath === "HF" || config.sheath === "У" || config.sheath === "LSLTx";
-        const extremeColdResistantDisabled = config.sheath === "LS" || config.sheath === "У" || config.sheath === "LSLTx";
-        const highColdResistantDisabled = config.additionalOptions.polyethylene
-            ? false
-            : config.sheath === "LS" || config.sheath === "У" || config.sheath === "LSLTx";
+        const { sheath, additionalOptions: { polyethylene } } = config;
+        const disabledSheaths = ["У", "LSLTx"];
+        const tempRestrictedSheaths = ["LS", "У", "LSLTx"];
 
         return {
             individualScreens: IndividualScreens.map(item => ({
                 ...item,
-                disabled: individualScreensDisabled
+                disabled: config.coreCount === 1
             })),
-
             addOptions: AdditionalOptionsList.map(item => ({
                 ...item,
                 disabled:
-                    item.key === "coldResistant" ? coldResistantDisabled :
-                        item.key === "extremeColdResistant" ? extremeColdResistantDisabled :
-                            item.key === "highColdResistant" ? highColdResistantDisabled :
-                                item.disabled
-            })),
-
+                    item.key === "coldResistant" ? (polyethylene || disabledSheaths.includes(sheath)) :
+                        item.key === "extremeColdResistant" ? (sheath === "HF" && polyethylene) || tempRestrictedSheaths.includes(sheath) :
+                            item.key === "highColdResistant" ? (sheath === "HF" && polyethylene) || (!polyethylene && tempRestrictedSheaths.includes(sheath)) :
+                                item.key === "polyethylene" ? disabledSheaths.includes(sheath) :
+                                    item.disabled
+            }))
         };
     };
+    const disabledItems = applyDisablingRules(config);
+
     const numData = config.twistType === '3' ?
         SectionTriadCores : config.twistType === '4' ?
             SectionQuadCores : SectionCores;
 
-    const disabledItems = applyDisablingRules(config);
-
-    const twistedTitle = config.twistType === "2" ? "Количество пар" : config.twistType === "3" ? "Количество троек" : config.twistType === "4" ? "Количество четверок" : "Количество жил"
+    const twistedTitle = config.twistType === "2" ?
+        "Количество пар" : config.twistType === "3" ?
+            "Количество троек" : config.twistType === "4" ?
+                "Количество четверок" : "Количество жил"
     return (
         <div>
             <h1 className={styles.header}> Конфигуратор кабеля марки СКАБ-С </h1>
@@ -111,7 +201,7 @@ export const Configurator = () => {
                         <SelectorOptional title="Исполнение"
                                           data={Sheath}
                                           value={config.sheath}
-                                          onChange={(e) => updateConfig("sheath", e)}/>
+                                          onChange={(e) => handleSheathChange("sheath", e)}/>
 
                         <SelectorOptional title="Общий экран"
                                           data={Screens}
@@ -129,8 +219,8 @@ export const Configurator = () => {
                                           onChange={(e) => updateConfig("armour", e)}/>
                         <AdditionalOptionsSelector
                             title="Дополнительные параметры (возможен выбор нескольких параметров)"
+                            value={config.additionalOptions}
                             data={disabledItems.addOptions}
-                            selected={config.additionalOptions}
                             onChange={handleAdditionalOptionsChange}/>
                     </>
 

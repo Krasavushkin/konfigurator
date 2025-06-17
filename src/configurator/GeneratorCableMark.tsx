@@ -18,10 +18,11 @@ export const GeneratorCableMark = ({ data }: GeneratorCableMarkType) => {
             additionalOptions.ex_i ? "Ex-i" : "",
         ].filter(Boolean).join(" ");
 
-        const fireResistantCondition = config.additionalOptions.fireResistant ? "FR" : "";
+        const fireResistantCondition = config.sheath === "У"? "" : config.additionalOptions.fireResistant ? "FR" : "";
+        const sheath = config.sheath === "У" && config.additionalOptions.fireResistant ? "Унг(А)-FRLS" : config.sheath
         const coldResistantCondition =
             config.sheath === "HF"
-                ? (additionalOptions.highColdResistant ? "-АХЛ" : "-ХЛ")
+                ? (additionalOptions.highColdResistant ? "-АХЛ" : additionalOptions.extremeColdResistant ? "-ЭХЛ" : "-ХЛ")
                 : additionalOptions.coldResistant ? "-ХЛ"
                     :  config.sheath === "У" ? "-АХЛ" :
                         additionalOptions.highColdResistant ? "-АХЛ"
@@ -33,7 +34,7 @@ export const GeneratorCableMark = ({ data }: GeneratorCableMarkType) => {
         const tinnedMark = config.wireType.tinnedWire ? "л" : "м";
         const groupResist = config.sheath === "У" ? "" : "нг(A)-"
 
-        return `СКАБ-C${config.screen} 660${config.armour}${polyethylene}${groupResist}${fireResistantCondition}${config.sheath}${coldResistantCondition}
+        return `СКАБ-C${config.screen} 660${config.armour}${polyethylene}${groupResist}${fireResistantCondition}${sheath}${coldResistantCondition}
         ${config.coreCount}${twistTypeCondition}${config.individualScreen}х${sectionCondition}
         ${tinnedMark}${wireType} ${optionsMark}`;
     }

@@ -38,12 +38,58 @@ export const CableDescription = ({data}: CableDescriptionType) => {
                 data.armour === "КГ" ? "c броней в виде оплетки из стальных оцинкованных проволок без защитного шланга":
                     data.armour === "К" ? "c броней в виде оплетки из стальных оцинкованных проволок с защитным шлангом" :
                         data.armour === "Кс" ? "c броней в виде спирального повива из стальных оцинкованных проволок и с защитным шлангом" : "без брони";
-        const coldResistant = data.additionalOptions.coldResistant ? " повышенной морозостойкости" : "";
         const waterBlock = data.additionalOptions.waterBlock ? ", с водоблокирующей лентой" : "";
         const ex_i = data.additionalOptions.ex_i ? ", для «искробезопасной» цепи с оболочкой синего цвета" : "";
+        const coldResistant = data.sheath === "HF" ? "" : data.additionalOptions.coldResistant ? " повышенной морозостойкости" : "";
+        const highColdResistant = data.sheath === "У" ? "" : data.additionalOptions.highColdResistant ? ", повышенной тепломорозостойкости" : "";
+        const extremeColdResistant = data.additionalOptions.extremeColdResistant ? ", повышенной морозостойкости" : "";
+        const getTemperatureRange = (data: CableConfigType) => {
+            const { sheath, additionalOptions } = data;
+            const { coldResistant, fireResistant, extremeColdResistant, polyethylene, highColdResistant } = additionalOptions;
+
+            if (sheath === "LSLTx") {
+                return "температура эксплуатации от -40˚С до +70˚С";
+            }
+
+            if (sheath === "LS") {
+                if (coldResistant && fireResistant) {
+                    return "температура эксплуатации от -70˚С до +90˚С";
+                }
+                if (coldResistant) {
+                    return "температура эксплуатации от -70˚С до +70˚С";
+                }
+                if (highColdResistant) {
+                    return "температура эксплуатации от -75˚С до +125˚С";
+                }
+                return "температура эксплуатации от -50˚С до +70˚С";
+            }
+
+            if (sheath === "HF") {
+                if (polyethylene) {
+                    return "температура эксплуатации от -70˚С до +125˚С";
+                }
+                if (extremeColdResistant) {
+                    return "температура эксплуатации от -75˚С до +90˚С";
+                }
+                if (highColdResistant) {
+                    return "температура эксплуатации от -75˚С до +125˚С";
+                }
+                return "температура эксплуатации от -70˚С до +90˚С";
+            }
+
+            if (highColdResistant) {
+                return "температура эксплуатации от -75˚С до +125˚С";
+            }
+
+            return "";
+        };
+
+// Использование:
+        const temperature = getTemperatureRange(data);
         return (`Кабель универсальный на номинальное переменное напряжение 660 В с ${wire} жилами ${wireClass}
                  класса по ГОСТ 22483 из медных ${tinned} проволок, с номинальным сечением токопроводящих жил ${data.section} мм², ${twisted}${individualScreen}, ${screen},
-                 с изоляцией из ${isolation}, ${compressed}, с оболочкой из ${sheath}${coldResistant}, ${armour} ${waterBlock}${ex_i}`)
+                 с изоляцией из ${isolation}${highColdResistant}${extremeColdResistant}, ${compressed}, с оболочкой из ${sheath}${coldResistant}${highColdResistant}${extremeColdResistant}, ${armour}, ${temperature} ${waterBlock}${ex_i}. 
+                 Гарантийный срок эксплуатации - 6 лет.`)
     }
     return (
         <div>
