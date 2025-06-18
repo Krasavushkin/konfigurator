@@ -20,7 +20,7 @@ export const CableDescription = ({data}: CableDescriptionType) => {
                     "ПВХ пластиката пониженной пожарной опасности с низкой токсичностью продуктов горения" : "полиуретана безгалогенного термопластичного";
         const isolation = data.additionalOptions.fireResistant ? "керамообразующей кремнийорганической резины" :
             data.additionalOptions.polyethylene ? "сшитого полиэтилена" : sheath;
-        const compressed = data.additionalOptions.compressed ? "без внутреннего заполнения" : "с внутренним заполнением"
+        const compressed = data.additionalOptions.compressed ? "без внутреннего заполнения, не подходит для применения во взрывоопасных зонах" : "с внутренним заполнением"
         const screen = data.screen === "Эф" ?
             "с общим экраном в виде ламинированной алюминиевой фольги" : data.screen === "Эфм" ?
                 "с общим экраном в виде ламинированной медной фольги" : data.screen === "Эо" ?

@@ -97,6 +97,7 @@ export const WiresTwisted: RequiredParam[] = [
 ]
 
 export const WireClass: number[] = [2, 3, 4, 5]
+export const WireClassForSection: number[] = [4, 5]
 export const SectionCores = [0.35, 0.50, 0.75, 1.0, 1.5, 2.5, 4, 6, 10, 16];
 export const SectionTriadCores = [0.35, 0.50, 0.75, 1.0, 1.5, 2.5, 4, 6];
 export const SectionQuadCores = [0.35, 0.50, 0.75, 1.0, 1.5, 2.5];
@@ -131,8 +132,8 @@ export const Armour: OptionalParam[] = [
 export const AdditionalOptionsList: AdditionalOptionListType[] = [
     { id: nanoid(), key: 'fireResistant', name: "FR", description: "огнестойкое исполнение, индекс «FR»", disabled: false },
     { id: nanoid(), key: 'waterBlock', name: "в", description: "водоблокирующий элемент, индекс «в»"},
-    { id: nanoid(), key: 'compressed', name: "о", description: "без внутреннего заполнения, индекс «о»"},
-    { id: nanoid(), key: 'ex_i', name: "Ex-i", description: "для «искробезопасной» цепи, индекс «Ex-i»"},
+    { id: nanoid(), key: 'compressed', name: "о", description: "без внутреннего заполнения, индекс «о» (не подходит для применения во взрывоопасных зонах)"},
+    { id: nanoid(), key: 'ex_i', name: "Ex-i", description: "для «искробезопасной» цепи, индекс «Ex-i» (обязателен выбор экрана или брони)"},
     { id: nanoid(), key: 'coldResistant', name: "ХЛ", description: "хладостойкое исполнение, индекс «ХЛ»", disabled: false },
     { id: nanoid(), key: 'highColdResistant', name: "АХЛ", description: "повышенная тепломорозостойкость, индекс «АХЛ»", disabled: false },
     { id: nanoid(), key: 'extremeColdResistant', name: "ЭХЛ", description: "повышенная морозостойкость, индекс «ЭХЛ»", disabled: false },
@@ -155,7 +156,7 @@ export const initConfig: CableConfigType = {
     twistType: "1",
     twistQuantity: "1",
     wireType: WireTypes,
-    section: 0.35,
+    section: 0.5,
     wireClass: 3,
     armour: "",
     screen: "",

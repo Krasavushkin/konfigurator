@@ -7,7 +7,7 @@ import {
     IndividualScreens, initConfig,
     Screens,
     SectionCores, SectionQuadCores, SectionTriadCores,
-    Sheath, WireClass,
+    Sheath, WireClass, WireClassForSection,
     WiresTwisted, WiresTypeParam,
 } from "./cableConfig";
 import {CableConfigType} from "./cableConfig";
@@ -27,9 +27,15 @@ export const Configurator = () => {
         setConfig(prev => ({...prev, [key]: value}));
 
     };
-
+    const handleSectionChange = (key: keyof CableConfigType, value: number) => {
+        setConfig(prev => {
+            const update = {...prev, [key]: value};
+            if (value === 0.35) {
+                update.wireClass = 4;
+            }
+            return update
+    })}
     const handleSheathChange = (key: keyof CableConfigType, value: string) => {
-        console.log(value)
         if (value === "") {
             value = "LS"
         }
@@ -79,7 +85,7 @@ export const Configurator = () => {
 
     const handleAdditionalOptionsChange = (newOptions: AdditionalOptionsType) => {
         setConfig(prev => {
-            const { polyethylene: wasPE, highColdResistant: wasHCR, coldResistant: wasCR } = prev.additionalOptions;
+            const { polyethylene: wasPE, highColdResistant: wasHCR } = prev.additionalOptions;
             const { polyethylene: newPE, highColdResistant: newHCR } = newOptions;
             const { sheath } = prev;
 
@@ -137,7 +143,7 @@ export const Configurator = () => {
         return {
             individualScreens: IndividualScreens.map(item => ({
                 ...item,
-                disabled: config.coreCount === 1
+                disabled: config.coreCount === 1 || config.additionalOptions.fireResistant
             })),
             addOptions: AdditionalOptionsList.map(item => ({
                 ...item,
@@ -186,10 +192,10 @@ export const Configurator = () => {
                             <NumSelector title="Сечение жилы, мм²"
                                          value={config.section}
                                          data={numData}
-                                         onChange={(e) => updateConfig("section", Number(e))}/>
+                                         onChange={(e) => handleSectionChange("section", Number(e))}/>
                             {config.wireType.singleWire ? "" :
                                 <NumSelector title="Класс гибкости" value={config.wireClass}
-                                             data={WireClass}
+                                             data={config.section === 0.35 ? WireClassForSection : WireClass}
                                              onChange={(e) => updateConfig("wireClass", Number(e))}/>}
 
                         </div>
@@ -203,15 +209,15 @@ export const Configurator = () => {
                                           value={config.sheath}
                                           onChange={(e) => handleSheathChange("sheath", e)}/>
 
-                        <SelectorOptional title="Общий экран"
-                                          data={Screens}
-                                          value={config.screen}
-                                          onChange={(e) => updateConfig("screen", e)}/>
-
                         <SelectorOptional title="Индивидуальный экран"
                                           data={disabledItems.individualScreens}
                                           value={config.individualScreen}
                                           onChange={(e) => updateConfig("individualScreen", e)}/>
+
+                        <SelectorOptional title="Общий экран"
+                                          data={Screens}
+                                          value={config.screen}
+                                          onChange={(e) => updateConfig("screen", e)}/>
 
                         <SelectorOptional title="Броня"
                                           data={Armour}
@@ -226,6 +232,7 @@ export const Configurator = () => {
 
                 </div>
                 <div className={styles.info}>
+                    <h2> КОНФИГУРАЦИЯ </h2>
                     <GeneratorCableMark data={config}/>
                     <button className={styles.reset} onClick={resetCableMark}>Сброс конфигурации</button>
                     <CableDescription data={config}/>
