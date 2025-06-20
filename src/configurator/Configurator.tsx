@@ -18,6 +18,7 @@ import styles from './Configurator.module.css';
 import {WireTypeSelector} from "./WireTypeSelector";
 import {CableDescription} from "./CableDescription";
 import {GeneratorCableMark} from "./GeneratorCableMark";
+import {Header} from "./Header";
 
 
 export const Configurator = () => {
@@ -168,7 +169,7 @@ export const Configurator = () => {
                 "Количество четверок" : "Количество жил"
     return (
         <div>
-            <h1 className={styles.header}> Конфигуратор кабеля марки СКАБ-С </h1>
+            <Header />
             <div className={styles.container}>
 
                 <div className={styles.wrapper}>
@@ -204,7 +205,7 @@ export const Configurator = () => {
                     </div>
 
                     <>
-                        <SelectorOptional title="Исполнение"
+                        <SelectorOptional title="Тип оболочки"
                                           data={Sheath}
                                           value={config.sheath}
                                           onChange={(e) => handleSheathChange("sheath", e)}/>
@@ -232,7 +233,6 @@ export const Configurator = () => {
 
                 </div>
                 <div className={styles.info}>
-                    <h2> КОНФИГУРАЦИЯ </h2>
                     <GeneratorCableMark data={config}/>
                     <button className={styles.reset} onClick={resetCableMark}>Сброс конфигурации</button>
                     <CableDescription data={config}/>

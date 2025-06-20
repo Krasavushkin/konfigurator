@@ -1,3 +1,8 @@
+.container {
+    position: relative;
+    cursor: pointer;
+}
+
 .cableMark {
     color: #333;
     background-color: #f8f9fa;
@@ -10,8 +15,30 @@
     font-family: 'Roboto', sans-serif;
     letter-spacing: 0.5px;
     max-width: 90%;
+    position: relative;
 }
 
+.tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #9E0929;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.container:hover .tooltip,
+.copied .tooltip {
+    opacity: 1;
+}
 
 .cableMark:hover {
     transform: translateY(-3px);

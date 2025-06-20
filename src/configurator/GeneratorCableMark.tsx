@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {CableConfigType} from "./cableConfig";
 import styles from "./GeneratorCableMark.module.css";
 
@@ -8,6 +8,21 @@ type GeneratorCableMarkType = {
 
 
 export const GeneratorCableMark = ({ data }: GeneratorCableMarkType) => {
+    const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle');
+
+    const handleCopy = async () => {
+        const mark = generateCableMark(data);
+        try {
+            await navigator.clipboard.writeText(mark);
+            setCopyStatus('copied');
+            setTimeout(() => setCopyStatus('idle'), 2000);
+        } catch (err) {
+            // ... fallback логика ...
+            setCopyStatus('copied');
+            setTimeout(() => setCopyStatus('idle'), 2000);
+        }
+    };
+
 
     const generateCableMark = (config: CableConfigType) => {
         const { additionalOptions } = data;
@@ -17,7 +32,7 @@ export const GeneratorCableMark = ({ data }: GeneratorCableMarkType) => {
             additionalOptions.compressed ? "о" : "",
             additionalOptions.ex_i ? "Ex-i" : "",
         ].filter(Boolean).join(" ");
-
+        const individualScreen = config.additionalOptions.fireResistant ? "" : config.individualScreen
         const fireResistantCondition = config.sheath === "У"? "" : config.additionalOptions.fireResistant ? "FR" : "";
         const sheath = config.sheath === "У" && config.additionalOptions.fireResistant ? "Унг(А)-FRLS" : config.sheath
         const coldResistantCondition =
@@ -35,13 +50,19 @@ export const GeneratorCableMark = ({ data }: GeneratorCableMarkType) => {
         const groupResist = config.sheath === "У" ? "" : "нг(A)-"
 
         return `СКАБ-C${config.screen} 660${config.armour}${polyethylene}${groupResist}${fireResistantCondition}${sheath}${coldResistantCondition}
-        ${config.coreCount}${twistTypeCondition}${config.individualScreen}х${sectionCondition}
-        ${tinnedMark}${wireType} ${optionsMark}`;
+        ${config.coreCount}${twistTypeCondition}${individualScreen}х${sectionCondition}
+        ${tinnedMark}${wireType} ${optionsMark}`.replace(/\s+/g, ' ').trim(); // Убираем лишние переносы
     }
 
+
     return (
-        <>
-            <h2 className={styles.cableMark}>{generateCableMark(data)}</h2>
-        </>
+        <div className={styles.container}>
+            <h2 className={styles.cableMark} onClick={handleCopy}>
+                {generateCableMark(data)}
+                <div className={styles.tooltip}>
+                    {copyStatus === 'copied' ? 'Скопировано!' : 'Кликните для копирования'}
+                </div>
+            </h2>
+        </div>
     );
 };

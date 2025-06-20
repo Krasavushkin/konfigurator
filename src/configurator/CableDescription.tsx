@@ -28,7 +28,7 @@ export const CableDescription = ({data}: CableDescriptionType) => {
                         "с общим экраном в виде оплетки из медных проволок" : data.screen === "Э" ?
                             "с общим экраном в виде ламинированной алюминиевой фольги и оплетки из медных луженых проволок":
                             data.screen === "Эм" ? "с общим экраном в виде ламинированной медной фольги и оплетки из медных проволок": "без общего экрана";
-        const individualScreen = data.individualScreen === "эф" ?
+        const individualScreen = data.additionalOptions.fireResistant ? "" : data.individualScreen === "эф" ?
             ", с индивидуальным экраном в виде ламинированной алюминиевой фольги" : data.screen === "эфм" ?
                 ", с индивидуальным экраном в виде ламинированной медной фольги" : data.screen === "эо" ?
                     ", с индивидуальным экраном в виде оплетки из медных луженых проволок" : data.screen === "эом" ?
