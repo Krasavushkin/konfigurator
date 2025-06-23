@@ -18,8 +18,14 @@ export const CableDescription = ({data}: CableDescriptionType) => {
             "поливинилхлоридного пластиката пониженной пожарной опасности" : data.sheath === "HF" ?
                 "полимерной композиции, не содержащей галогенов" : data.sheath === "LSLTx" ?
                     "ПВХ пластиката пониженной пожарной опасности с низкой токсичностью продуктов горения" : "полиуретана безгалогенного термопластичного";
-        const isolation = data.additionalOptions.fireResistant ? "керамообразующей кремнийорганической резины" :
-            data.additionalOptions.polyethylene ? "сшитого полиэтилена" : sheath;
+        const isolation =
+            data.additionalOptions.fireResistant && data.additionalOptions.polyethylene
+                ? "с обмоткой слюдосодержащими лентами поверх токопроводящих жил, с изоляцией из сшитого полиэтилена"
+                : data.additionalOptions.fireResistant
+                    ? "керамообразующей кремнийорганической резины"
+                    : data.additionalOptions.polyethylene
+                        ? "сшитого полиэтилена"
+                        : sheath;
         const compressed = data.additionalOptions.compressed ? "без внутреннего заполнения, не подходит для применения во взрывоопасных зонах" : "с внутренним заполнением"
         const screen = data.screen === "Эф" ?
             "с общим экраном в виде ламинированной алюминиевой фольги" : data.screen === "Эфм" ?
@@ -87,8 +93,8 @@ export const CableDescription = ({data}: CableDescriptionType) => {
 // Использование:
         const temperature = getTemperatureRange(data);
         return (`Кабель универсальный на номинальное переменное напряжение 660 В с ${wire} жилами ${wireClass}
-                 класса по ГОСТ 22483 из медных ${tinned} проволок, с номинальным сечением токопроводящих жил ${data.section} мм², ${twisted}${individualScreen}, ${screen},
-                 с изоляцией из ${isolation}${highColdResistant}${extremeColdResistant}, ${compressed}, с оболочкой из ${sheath}${coldResistant}${highColdResistant}${extremeColdResistant}, ${armour}, ${temperature} ${waterBlock}${ex_i}. 
+                 класса по ГОСТ 22483 из медных ${tinned} проволок, с номинальным сечением токопроводящих жил ${data.section} мм², ${twisted}${individualScreen},
+                 ${data.additionalOptions.fireResistant&&data.additionalOptions.polyethylene? "" : "с изоляцией из"} ${isolation}${highColdResistant}${extremeColdResistant}, ${screen}, ${compressed}, с оболочкой из ${sheath}${coldResistant}${highColdResistant}${extremeColdResistant}, ${armour}, ${temperature} ${waterBlock}${ex_i}. 
                  Гарантийный срок эксплуатации - 6 лет.`)
     }
     return (

@@ -142,10 +142,28 @@ export const Configurator = () => {
         const tempRestrictedSheaths = ["LS", "У", "LSLTx"];
 
         return {
-            individualScreens: IndividualScreens.map(item => ({
-                ...item,
-                disabled: config.coreCount === 1 || config.additionalOptions.fireResistant
-            })),
+            individualScreens: IndividualScreens.map(item => {
+                const { fireResistant, polyethylene } = config.additionalOptions;
+                const { coreCount } = config;
+
+                if (fireResistant && polyethylene) {
+                    return { ...item, disabled: false };
+                }
+
+                let disabled = item.disabled;
+                switch (item.name) {
+                    case "эо":
+                    case "эом":
+                        disabled = coreCount === 1 || fireResistant;
+                        break;
+                    case "эф":
+                    case "эфм":
+                        disabled = coreCount === 1;
+                        break;
+                }
+
+                return { ...item, disabled };
+            }),
             addOptions: AdditionalOptionsList.map(item => ({
                 ...item,
                 disabled:
