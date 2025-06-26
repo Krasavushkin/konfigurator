@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { OptionalParam } from "./cableConfig";
-import styles from './SelectorOptional.module.css';
+import styles from './styles/OptionsSelector.module.css';
 
 type SelectorOptionalType = {
     title: string;

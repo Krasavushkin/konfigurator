@@ -1,6 +1,6 @@
 import React from 'react';
 import {RequiredParam} from "./cableConfig";
-import styles from "./RequiredSelector.module.css";
+import styles from "./styles/OptionsSelector.module.css";
 
 type SelectorRequiredType = {
     title: string;
@@ -18,8 +18,8 @@ export const RequiredSelector = ({title, data, value, onChange}: SelectorRequire
         }
     };
     return (
-        <div className={styles.selector}>
-            <h3 className={styles.selectorTitle}>{title}</h3>
+        <div className={styles.selectorWire}>
+            <h3 className={styles.selectorWireTitle}>{title}</h3>
             {data.map(data => (
                 <label className={styles.optionLabel}>
                     <input
@@ -29,7 +29,7 @@ export const RequiredSelector = ({title, data, value, onChange}: SelectorRequire
                         //disabled={data.disabled}
                         className={styles.checkbox}
                     />
-                    <span className="selector-description">{data.description}</span>
+                    <span className={styles.optionDescription}>{data.description}</span>
                 </label>
             ))}
         </div>

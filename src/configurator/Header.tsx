@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "./Configurator.module.css";
+import styles from "./styles/Configurator.module.css";
 
 export const Header = () => {
     return (
@@ -12,7 +12,7 @@ export const Header = () => {
                     className={styles.headerLogo}
                     aria-label="Перейти на основной сайт СПЕЦКАБЕЛЬ"
                 >
-                    <h2>Кабельный завод <br/>СПЕЦКАБЕЛЬ</h2>
+                    <h2 className={styles.headerLogo}>Кабельный завод <br/>СПЕЦКАБЕЛЬ</h2>
                 </a>
             </div>
             <h1 className={styles.headerTitle}>Конфигуратор кабеля марки СКАБ-С</h1>

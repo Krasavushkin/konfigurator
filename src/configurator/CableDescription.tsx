@@ -1,11 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {CableConfigType} from "./cableConfig";
-import styles from "./CableDesription.module.css"
+import styles from "./styles/CableDesription.module.css"
 
 type CableDescriptionType = {
     data: CableConfigType
 }
 export const CableDescription = ({data}: CableDescriptionType) => {
+
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
+    const toggleCollapse = () => {
+        if (window.innerWidth <= 768) { // Только на мобильных
+            setIsCollapsed(!isCollapsed);
+        }
+    };
     const description = (data: CableConfigType) => {
         const wire = data.wireType.singleWire ? "однопроволочными" : "многопроволочными";
         const wireClass = data.wireType.singleWire ? 1 : data.wireClass ;
@@ -99,8 +107,18 @@ export const CableDescription = ({data}: CableDescriptionType) => {
     }
     return (
         <div>
-            <h2 className={styles.h2}>Описание кабеля</h2>
-             <p className={styles.p}> {description(data)}</p>
+            <h2
+                className={styles.h2}
+                onClick={toggleCollapse}
+            >
+                Описание кабеля
+                <span className={styles.toggleIcon}>
+                    {isCollapsed ? '▼' : '▲'}
+                </span>
+            </h2>
+            <p className={`${styles.p} ${isCollapsed ? styles.collapsed : ''}`}>
+                {description(data)}
+            </p>
         </div>
     );
 };

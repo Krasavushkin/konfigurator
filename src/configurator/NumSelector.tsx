@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './NumSelector.module.css';
+import styles from './styles/NumSelector.module.css';
 
 
 type NumSelectorType = {

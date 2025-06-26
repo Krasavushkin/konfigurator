@@ -1,6 +1,6 @@
 import React from 'react';
 import {WiresTypeParam} from "./cableConfig";
-import styles from "./WireTypeSelector.module.css"
+import styles from "./styles/OptionsSelector.module.css"
 
 type WireTypeSelectorProps = {
     title: string;
@@ -27,8 +27,8 @@ export const WireTypeSelector = ({title, value, onChange }: WireTypeSelectorProp
     };
 
     return (
-        <div className={styles.selector}>
-            <h3 className={styles.selectorTitle}> {title} </h3>
+        <div className={styles.selectorWire}>
+            <h3 className={styles.selectorWireTitle}> {title} </h3>
 
             <div  className={styles.wireTypeGroup}>
                 <label className={styles.optionLabel}>
@@ -39,7 +39,7 @@ export const WireTypeSelector = ({title, value, onChange }: WireTypeSelectorProp
                         onChange={() => handleWireTypeChange('singleWire')}
                         className={styles.checkbox}
                     />
-                    <span>Однопроволочная</span>
+                    <span className={styles.optionDescription}>Однопроволочная</span>
                 </label>
 
                 <label className={styles.optionLabel}>
@@ -50,7 +50,7 @@ export const WireTypeSelector = ({title, value, onChange }: WireTypeSelectorProp
                         onChange={() => handleWireTypeChange('strandedWire')}
                         className={styles.checkbox}
                     />
-                    <span>Многопроволочная</span>
+                    <span className={styles.optionDescription}>Многопроволочная</span>
                 </label>
 
                 <label className={styles.optionLabel}>
@@ -60,7 +60,7 @@ export const WireTypeSelector = ({title, value, onChange }: WireTypeSelectorProp
                         onChange={() => handleWireTypeChange('tinnedWire')}
                         className={styles.checkbox}
                     />
-                    <span>Луженая</span>
+                    <span className={styles.optionDescription}>Луженая</span>
                 </label>
 
             </div>

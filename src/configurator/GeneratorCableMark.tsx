@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {CableConfigType} from "./cableConfig";
-import styles from "./GeneratorCableMark.module.css";
+import styles from "./styles/GeneratorCableMark.module.css";
 
 type GeneratorCableMarkType = {
     data: CableConfigType

@@ -1,0 +1,267 @@
+.selector {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    width: 95%;
+}
+
+.selector.open {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.selectorWire {
+    margin-bottom: 20px;
+}
+
+.wireTypeGroup {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.selectorWireTitle {
+    text-align: left;
+    font-size: clamp(16px, 2vw, 18px); /* Адаптивный размер */
+    margin-bottom: clamp(8px, 1.5vw, 12px);
+    font-weight: 600;
+    width: 100%;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .selectorWire {
+        padding: 12px;
+        margin-bottom: 16px;
+    }
+
+    .wireTypeGroup {
+        flex-direction: column; /* Вертикальное расположение на мобильных */
+        align-items: flex-start; /* Выравнивание по левому краю */
+        gap: 8px;
+    }
+
+    .selectorWireTitle {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+    .selectorWire {
+        padding: 10px;
+    }
+
+    .selectorWireTitle {
+        font-size: 15px;
+    }
+}
+
+
+
+.selectorTitle {
+    margin: 0;
+    padding: 12px 16px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    font-size: 16px;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+.selectorTitle:hover {
+    background-color: #ebebeb;
+}
+.arrowIcon {
+    font-size: 14px;
+    margin-left: 8px;
+    transition: transform 0.2s;
+}
+
+.open .arrowIcon {
+    transform: rotate(1deg);
+}
+
+.optionsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: inline;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.optionItem {
+    display: flex;
+    align-items: center;
+}
+
+.optionLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.optionLabel:hover {
+    border-color: #4a6bdf;
+}
+
+.optionInput {
+    width: 16px;
+    height: 16px;
+}
+
+.optionDescription {
+    /* Базовые стили для десктопа */
+    font-size: clamp(14px, 1.6vw, 16px); /* Плавное изменение от 14px до 16px */
+    line-height: 1.5;
+    margin-top: 4px;
+    text-align: left;
+
+
+
+}
+
+/* Планшетная версия (768px - 1024px) */
+@media (max-width: 1024px) {
+    .optionDescription {
+        padding-left: 24px;
+        line-height: 1.45;
+    }
+}
+
+/* Мобильная версия (до 768px) */
+@media (max-width: 768px) {
+    .optionDescription {
+        padding-left: 20px;
+        margin-top: 2px;
+        line-height: 1.4;
+    }
+}
+
+/* Очень маленькие экраны (до 480px) */
+@media (max-width: 480px) {
+    .optionDescription {
+        padding-left: 16px;
+        line-height: 1.35;
+    }
+}
+
+/* Оптимизация для touch-устройств */
+@media (pointer: coarse) {
+    .optionDescription {
+        padding-bottom: 2px; /* Увеличиваем область касания */
+    }
+}
+
+/* Базовые стили для всех устройств */
+.checkbox {
+    -webkit-appearance: none;
+    appearance: none;
+    width: clamp(18px, 4vw, 20px); /* Адаптивный размер */
+    height: clamp(18px, 4vw, 20px);
+    min-width: 18px; /* Фиксированный минимум */
+    min-height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    margin-right: clamp(8px, 2vw, 10px);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    flex-shrink: 0; /* Предотвращает сжатие */
+}
+
+.checkbox:checked {
+    background-color: #9E0929;
+    border-color: #9E0929;
+}
+
+.checkbox:checked::after {
+    content: "✓";
+    position: absolute;
+    color: white;
+    font-size: clamp(14px, 3.5vw, 18px); /* Адаптивный размер галочки */
+    font-weight: 600;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox:hover {
+    border-color: #9E0929;
+}
+
+.checkbox-label {
+    font-size: clamp(14px, 3.5vw, 16px); /* Адаптивный размер текста */
+    color: #444;
+    cursor: pointer;
+    line-height: 1.4; /* Лучшая читаемость */
+    user-select: none; /* Запрет выделения текста */
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .checkbox {
+        border-width: 1.5px; /* Тоньше граница на мобильных */
+        margin-right: 8px;
+    }
+
+    .checkbox-label {
+        font-size: 15px;
+    }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 480px) {
+    .checkbox {
+        width: 16px;
+        height: 16px;
+        margin-right: 6px;
+    }
+
+    .checkbox:checked::after {
+        font-size: 14px;
+    }
+
+    .checkbox-label {
+        font-size: 14px;
+    }
+}
+
+/* Оптимизация для touch-устройств */
+@media (pointer: coarse) {
+    .checkbox {
+        width: 22px; /* Увеличенные размеры */
+        height: 22px;
+        margin-right: 12px;
+    }
+
+    .checkbox-label {
+        padding: 4px 0; /* Увеличенная область касания */
+    }
+}
+
+/* Темная тема (опционально) */
+@media (prefers-color-scheme: dark) {
+    .checkbox {
+        border-color: #555;
+        background-color: #333;
+    }
+
+    .checkbox-label {
+        color: #eee;
+    }
+}

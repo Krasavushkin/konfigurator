@@ -1,0 +1,90 @@
+/* Стили для компонента CableDescription */
+.h2 {
+    color: #222;
+    font-size: clamp(16px, 2vw, 18px);
+    font-weight: 600;
+    margin: clamp(25px, 3vw, 40px) 0 clamp(10px, 1.5vw, 15px) 0;
+    text-transform: uppercase;
+    align-items: center;
+    cursor: pointer; /* Добавляем курсор-указатель */
+}
+
+.p {
+    color: #444;
+    font-size: clamp(12px, 1.8vw, 16px);
+    line-height: 1.7;
+    font-weight: bold;
+    margin: 0 0 clamp(20px, 3vw, 30px) 0;
+    padding: clamp(10px, 2vw, 15px);
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Иконка для кнопки сворачивания */
+.toggleIcon {
+    display: none; /* По умолчанию скрыта */
+    font-size: 14px;
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .h2 {
+        padding: 10px 15px;
+        background-color: #f0f0f0;
+        border-radius: 6px;
+    }
+
+    .p {
+        max-height: 150px; /* Ограничиваем высоту */
+        overflow: hidden;
+        position: relative;
+    }
+
+    .p.collapsed {
+        max-height: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+
+    .p::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 30px;
+        background: linear-gradient(to bottom, rgba(248,248,248,0), rgba(248,248,248,1));
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+    .p.collapsed::after {
+        opacity: 0;
+    }
+
+    .toggleIcon {
+        display: inline-block;
+    }
+
+    .collapsed + .p {
+        max-height: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .h2 {
+        font-size: 15px;
+        padding: 8px 12px;
+    }
+
+    .p {
+        font-size: 13px;
+        line-height: 1.6;
+        padding: 8px 12px;
+    }
+}

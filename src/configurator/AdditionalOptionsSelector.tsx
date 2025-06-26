@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {AdditionalOptionListType, AdditionalOptionsType} from "./cableConfig";
-import styles from './AdditionalOtionsSelector.module.css';
+import styles from './styles/OptionsSelector.module.css';
 
 type AdditionalOptionsSelectorProps = {
     title: string;

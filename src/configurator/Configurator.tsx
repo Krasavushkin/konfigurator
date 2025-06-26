@@ -14,7 +14,7 @@ import {CableConfigType} from "./cableConfig";
 import {RequiredSelector} from "./RequiredSelector";
 import {NumSelector} from "./NumSelector";
 import {AdditionalOptionsSelector} from "./AdditionalOptionsSelector";
-import styles from './Configurator.module.css';
+import styles from './styles/Configurator.module.css';
 import {WireTypeSelector} from "./WireTypeSelector";
 import {CableDescription} from "./CableDescription";
 import {GeneratorCableMark} from "./GeneratorCableMark";
@@ -189,6 +189,7 @@ export const Configurator = () => {
         <div>
             <Header />
             <div className={styles.container}>
+
 
                 <div className={styles.wrapper}>
                     <div className={styles.configSections}>
