@@ -42,6 +42,8 @@
         max-height: 150px; /* Ограничиваем высоту */
         overflow: hidden;
         position: relative;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .p.collapsed {
@@ -52,15 +54,7 @@
     }
 
     .p::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 30px;
-        background: linear-gradient(to bottom, rgba(248,248,248,0), rgba(248,248,248,1));
-        opacity: 1;
-        transition: opacity 0.3s ease;
+        display: none;
     }
 
     .p.collapsed::after {
