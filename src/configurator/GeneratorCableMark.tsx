@@ -32,7 +32,7 @@ export const GeneratorCableMark = ({ data }: GeneratorCableMarkType) => {
             additionalOptions.compressed ? "о" : "",
             additionalOptions.ex_i ? "Ex-i" : "",
         ].filter(Boolean).join(" ");
-        const individualScreen = config.additionalOptions.fireResistant ? "" : config.individualScreen
+        const individualScreen = config.individualScreen
         const fireResistantCondition = config.sheath === "У"? "" : config.additionalOptions.fireResistant ? "FR" : "";
         const sheath = config.sheath === "У" && config.additionalOptions.fireResistant ? "Унг(А)-FRLS" : config.sheath
         const coldResistantCondition =
