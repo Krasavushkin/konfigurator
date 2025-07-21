@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {SelectorOptional} from "./SelectorOptional";
 import {
     AdditionalOptionsList, AdditionalOptionsType,
@@ -19,10 +19,12 @@ import {WireTypeSelector} from "./WireTypeSelector";
 import {CableDescription} from "./CableDescription";
 import {GeneratorCableMark} from "./GeneratorCableMark";
 import {Header} from "./Header";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export const Configurator = () => {
-
+    const notificationShown = useRef(false);
     const [config, setConfig] = useState<CableConfigType>(initConfig);
     const updateConfig = (key: keyof CableConfigType, value: string | number | boolean) => {
         setConfig(prev => ({...prev, [key]: value}));
@@ -80,18 +82,47 @@ export const Configurator = () => {
                     polyethylene: false
                 };
             }
+            if (value === "FR") {
+                if (updated.individualScreen === "эо") {
+                    updated.individualScreen = "эф";
+                } else if (updated.individualScreen === "эом") {
+                    updated.individualScreen = "эфм";
+                }
+            }
+
             return updated;
         });
     };
 
     const handleAdditionalOptionsChange = (newOptions: AdditionalOptionsType) => {
         setConfig(prev => {
-            const { polyethylene: wasPE, highColdResistant: wasHCR } = prev.additionalOptions;
-            const { polyethylene: newPE, highColdResistant: newHCR } = newOptions;
-            const { sheath } = prev;
+            const { polyethylene: wasPE, highColdResistant: wasHCR, fireResistant: wasFR  } = prev.additionalOptions;
+            const { polyethylene: newPE, highColdResistant: newHCR, fireResistant: newFR  } = newOptions;
+            const { sheath, individualScreen } = prev;
 
             let updated = { ...newOptions };
+            let updatedIndividualScreen = individualScreen;
 
+            if (newFR && !wasFR) {
+                if (individualScreen === "эо") {
+                    updatedIndividualScreen = "эф";
+                } else if (individualScreen === "эом") {
+                    updatedIndividualScreen = "эфм";
+                }
+            }
+            if (newFR && !wasFR && !notificationShown.current) {
+                if (individualScreen === "эо" || individualScreen === "эом") {
+                    notificationShown.current = true;
+                    setTimeout(() => {
+                        toast.info('Индивидуальный экран изменён с оплетки на фольгу для огнестойкого исполнения', {
+                            toastId: 'screen-change',
+                            position: "top-center",
+                            autoClose: 3000,
+                        });
+                        notificationShown.current = false;
+                    }, 1);
+                }
+            }
             // Логика для LS оболочки
             if (sheath === "LS") {
                 if (!wasPE && newPE) {
@@ -125,7 +156,8 @@ export const Configurator = () => {
                     });
             }
 
-            return { ...prev, additionalOptions: updated };
+
+            return { ...prev, additionalOptions: updated,  individualScreen: updatedIndividualScreen };
         });
     };
     const handleWiresTypeChange = (options: WiresTypeParam) => {
@@ -188,6 +220,7 @@ export const Configurator = () => {
     return (
         <div>
             <Header />
+            <ToastContainer />
             <div className={styles.container}>
 
 
