@@ -21,7 +21,7 @@ import {GeneratorCableMark} from "./GeneratorCableMark";
 import {Header} from "./Header";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+//git push second-repo main
 
 export const Configurator = () => {
     const notificationShown = useRef(false);
@@ -114,10 +114,17 @@ export const Configurator = () => {
                 if (individualScreen === "эо" || individualScreen === "эом") {
                     notificationShown.current = true;
                     setTimeout(() => {
-                        toast.info('Индивидуальный экран изменён с оплетки на фольгу для огнестойкого исполнения', {
+                        toast.info('Индивидуальный экран изменён с оплётки на фольгу для огнестойкого исполнения', {
                             toastId: 'screen-change',
                             position: "top-center",
                             autoClose: 3000,
+                            style: {
+                                color: `black`,
+                                fontSize: '20px',
+                                borderRadius: '8px',
+                                border: `1px solid black`,
+                                boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
+                            }
                         });
                         notificationShown.current = false;
                     }, 1);
